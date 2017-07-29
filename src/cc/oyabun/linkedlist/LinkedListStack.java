@@ -64,7 +64,5 @@ public class LinkedListStack {
         stack.pop();          // 11 10 1
 
         stack.print();
-
-
     }
 }
