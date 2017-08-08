@@ -7,30 +7,46 @@ package cc.oyabun.heap;
 public class MinHeap<E extends Comparable<E>> {
 
     /** TODO
-     * Resize method: Doubles the heap when it's full, and reduce it to half when it's 1/4 full
-     * Insert method
-     * Delete method
      * Heapsort
      * Priority Queue
      */
 
-    private static final int CAPACITY = 2;
+    private static final int INIT_CAPACITY = 2;
 
     private int size;
     private E[] heap;
 
     public MinHeap() {
         size = 0;
-        heap = (E[]) new Comparable[CAPACITY];
+        heap = (E[]) new Comparable[INIT_CAPACITY];
     }
 
     public MinHeap(Integer[] array) {
         size = array.length;
-        heap = (E[]) new Comparable[array.length + 1];
-        System.arraycopy(array, 0, heap, 1, array.length);
+        heap = (E[]) new Comparable[size + 1];
+        System.arraycopy(array, 0, heap, 1, size);
         buildMinHeap();
     }
 
+    public void insert(E item) {
+        if (isFull()) { resize(heap.length * 2); }
+        heap[++size] = item;
+        swim(size);
+    }
+
+    public E deleteMin() throws RuntimeException {
+        if (size == 0) throw new RuntimeException("Heap is empty");
+        if (size == heap.length / 4) resize(heap.length / 2);
+        E min = heap[1];
+        heap[1] = heap[size];
+        heap[size--] = null;
+        minHeapify(1);
+        return min;
+    }
+
+    /**
+     * Starts from "k = size / 2" because half of the size is always the parent of the last node in the array if the heap doesn't use index 0.
+     */
     private void buildMinHeap() {
         for (int k = size / 2; k > 0; k--) minHeapify(k);
     }
@@ -49,15 +65,32 @@ public class MinHeap<E extends Comparable<E>> {
             min = r;
 
         if (min != k) {
-            exch(k, min);
+            swap(k, min);
             minHeapify(min);
         }
     }
 
-    private void exch(int i, int j) {
+    private void swap(int i, int j) {
         E tmp = heap[i];
         heap[i] = heap[j];
         heap[j] = tmp;
+    }
+
+    private void resize(int newSize) {
+        E[] old = heap;
+        heap = (E []) new Comparable[newSize];
+        System.arraycopy(old, 1, heap, 1, size);
+    }
+
+    private void swim(int k) {
+        while (k > 1 && heap[k].compareTo(heap[k / 2]) < 0) {
+            swap(k, k / 2);
+            k = k / 2;
+        }
+    }
+
+    private boolean isFull() {
+        return size == heap.length - 1;
     }
 
     public String toString() {
@@ -67,7 +100,7 @@ public class MinHeap<E extends Comparable<E>> {
     }
 
     public static void main(String[] args) {
-        Integer[] input = {10,9,8,7,6,5,4,3,2,1};
+        Integer[] input = {12,24,58,20,29,38,93,48,39,20,19,38,49,39,29,38};
         MinHeap<Integer> heap = new MinHeap<Integer>(input);
 
         System.out.println(heap.toString());
