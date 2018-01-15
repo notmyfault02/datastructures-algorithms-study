@@ -3,11 +3,11 @@ package cc.oyabun.linkedlist;
 /**
  * Created by yaboong on 2017. 7. 11..
  */
-public class LinkedListStack {
+public class LinkedListStack<E extends Comparable<E>> {
     private Node first = null;
 
     private class Node {
-        int item;
+        E item;
         Node next;
     }
 
@@ -15,22 +15,22 @@ public class LinkedListStack {
         return first==null;
     }
 
-    public void push(int item) {
+    public void push(E item) {
         Node oldFirst = first;
         first = new Node();
         first.item = item;
         first.next = oldFirst;
     }
 
-    public int pop() {
+    public E pop() {
         if(!isEmpty()){
-            int item = first.item;
+            E item = first.item;
             first = first.next;
             return item;
         }
         else {
             System.out.println("Stack is empty.");
-            return -1;
+            return null;
         }
     }
 
@@ -44,7 +44,7 @@ public class LinkedListStack {
     }
 
     public static void main(String[] args){
-        LinkedListStack stack = new LinkedListStack();
+        LinkedListStack<Integer> stack = new LinkedListStack();
         stack.push(1);  // 1
         stack.push(2);  // 2 1
         stack.push(3);  // 3 2 1
