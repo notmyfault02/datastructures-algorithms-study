@@ -1,4 +1,4 @@
-package cc.oyabun.sort;
+package cc.yaboong.algorithms.sort;
 
 /**
  * Created by yaboong on 2018. 1. 15..

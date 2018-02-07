@@ -1,4 +1,4 @@
-package cc.oyabun.linkedlist;
+package cc.yaboong.ds.linkedlist;
 
 /**
  * Created by yaboong on 2017. 7. 11..

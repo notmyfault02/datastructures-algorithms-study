@@ -1,4 +1,4 @@
-package cc.oyabun.array;
+package cc.yaboong.ds.array;
 
 /**
  * Created by yaboong on 2018. 1. 15..

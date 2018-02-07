@@ -1,4 +1,4 @@
-package cc.oyabun.heap;
+package cc.yaboong.ds.heap;
 
 /**
  * Created by yaboong on 2017. 8. 6..

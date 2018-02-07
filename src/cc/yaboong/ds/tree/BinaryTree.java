@@ -1,4 +1,4 @@
-package cc.oyabun.tree;
+package cc.yaboong.ds.tree;
 
 /**
  * Created by yaboong on 2017. 7. 29..
