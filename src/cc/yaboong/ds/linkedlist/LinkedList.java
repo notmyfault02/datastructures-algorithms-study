@@ -18,21 +18,20 @@ public class LinkedList {
     public void append(int data) {
         Node appendNode = new Node(data);
 
+        // 현재 head 가 null 이면 (아무것도 없으면) head 에 새롭게 append 할 node 를 붙여준다.
         if (head == null) {
             head = appendNode;
             return;
         }
 
+        // 그렇지 않은 경우 현재 head 를 current 라는 변수로 받고 리스트의 가장 끝으로 간다.
         Node current = head;
-        while (current.next != null) {
-            current = current.next;
+        while (current.next != null) {  // current.next == null 이면 current 는 마지막 node 에 도착한 것이다
+            current = current.next;     // current 를 마지막 node 로 옮겨간다.
         }
-        current.next = appendNode;
+        current.next = appendNode;      // current.next = "추가할 노드" 지정해주면 끝이다
     }
 
-    /**
-     * 현재 head 앞에 추가
-     */
     public void prepend(int data) {
         Node newHead = new Node(data);
         newHead.next = head;

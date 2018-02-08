@@ -4,7 +4,7 @@ package cc.yaboong.ds.linkedlist;
  * Created by yaboong on 2018. 1. 15..
  */
 public class LinkedListQueue<E extends Comparable<E>> {
-    private Node first, last;
+    private Node head, tail;
 
     private class Node{
         E item;
@@ -12,33 +12,33 @@ public class LinkedListQueue<E extends Comparable<E>> {
     }
 
     public boolean isEmpty(){
-        return first == null;
+        return head == null;
     }
 
     public void enqueue(E item){
-        Node oldlast = last;
-        last = new Node();
-        last.item = item;
-        last.next = null;
-        if(isEmpty()) first = last;
-        else oldlast.next = last;
+        Node oldlast = tail;
+        tail = new Node();
+        tail.item = item;
+        tail.next = null;
+        if(isEmpty()) head = tail;
+        else oldlast.next = tail;
     }
 
     public E dequeue(){
         if(isEmpty()){
-            last = first;
+            tail = head;
             System.out.println("Queue is empty");
             return null;
         }
         else{
-            E item = first.item;
-            first = first.next;
+            E item = head.item;
+            head = head.next;
             return item;
         }
     }
 
     public void print(){
-        Node mover = first;
+        Node mover = head;
         while(mover != null){
             System.out.println(mover.item);
             mover = mover.next;
