@@ -17,16 +17,16 @@ public class LinkedListStack<E extends Comparable<E>> {
     }
 
     public void push(E item) {
-        Node oldFirst = head;
-        head = new Node();
+        Node oldHead = head;   // 기존의 head 를 잠시 다른 녀석으로 가리키게 해 두고
+        head = new Node();     // 새로운 head 를 만든다
         head.item = item;
-        head.next = oldFirst;
+        head.next = oldHead;   // 새로운 head 가 기존의 head 를 가리키게 한다
     }
 
     public E pop() {
-        if(!isEmpty()){
-            E item = head.item;
-            head = head.next;
+        if(!isEmpty()){         // stack 이 비어있지 않으면
+            E item = head.item; // 현재 head 의 item 을 반환하고
+            head = head.next;   // head 다음 node 를 head 로 만들어 준다
             return item;
         }
         else {
