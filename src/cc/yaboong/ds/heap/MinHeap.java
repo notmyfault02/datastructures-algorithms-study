@@ -1,111 +1,119 @@
 package cc.yaboong.ds.heap;
 
+import java.util.Arrays;
+
 /**
- * Created by yaboong on 2017. 8. 6..
+ * Created by yaboong on 2018. 2. 9..
  */
 
+@SuppressWarnings("unchecked")
+public class MinHeap <T extends Comparable<T>> {
+    private static final int DEFAULT_CAPACITY = 10;
+    private int capacity = DEFAULT_CAPACITY;
+    private int size = 0;
 
-public class MinHeap<T extends Comparable<T>> {
+    T[] items = (T[]) new Comparable[DEFAULT_CAPACITY];
 
-    /** TODO
-     * Heapsort
-     * Priority Queue
-     */
+    private int getLeftChildIndex(int parentIndex) { return 2 * parentIndex + 1; }
+    private int getRightChildIndex(int parentIndex) { return 2 * parentIndex + 2; }
+    private int getParentIndex(int childIndex) { return (childIndex - 1) / 2; }
 
-    private static final int INIT_CAPACITY = 2;
+    private boolean hasLeftChild(int index) { return getLeftChildIndex(index) < size; }
+    private boolean hasRightChild(int index) { return getRightChildIndex(index) < size; }
+    private boolean hasParent(int index) { return getParentIndex(index) >= 0; }
 
-    private int size;
-    private T[] heap;
+    private T leftChild(int index) { return items[getLeftChildIndex(index)]; }
+    private T rightChild(int index) { return items[getRightChildIndex(index)]; }
+    private T parent(int index) { return items[getParentIndex(index)]; }
 
-    @SuppressWarnings("unchecked")
-    public MinHeap() {
-        size = 0;
-        heap = (T[]) new Comparable[INIT_CAPACITY];
+    private void swap(int indexA, int indexB) {
+        T temp = items[indexA];
+        items[indexA] = items[indexB];
+        items[indexB] = temp;
     }
 
-    @SuppressWarnings("unchecked")
-    public MinHeap(T[] array) {
-        size = array.length;
-        heap = (T[]) new Comparable[size + 1];
-        System.arraycopy(array, 0, heap, 1, size);
-        buildMinHeap();
-    }
-
-    public void insert(T item) {
-        if (isFull()) { resize(heap.length * 2); }
-        heap[++size] = item;
-        swim(size);
-    }
-
-    public T deleteMin() throws RuntimeException {
-        if (size == 0) throw new RuntimeException("Heap is empty");
-        if (size == heap.length / 4) resize(heap.length / 2);
-        T min = heap[1];
-        heap[1] = heap[size];
-        heap[size--] = null;
-        minHeapify(1);
-        return min;
-    }
-
-    /**
-     * Starts from "k = size / 2" because half of the size is always the parent of the last node in the array if the heap doesn't use index 0.
-     */
-    private void buildMinHeap() {
-        for (int k = size / 2; k > 0; k--) minHeapify(k);
-    }
-
-    private void minHeapify(int k) {
-        int min = 0;
-        int l = 2 * k;
-        int r = 2 * k + 1;
-
-        if (l <= size && heap[l].compareTo(heap[k]) < 0)
-            min = l;
-        else
-            min = k;
-
-        if (r <= size && heap[r].compareTo(heap[min]) < 0)
-            min = r;
-
-        if (min != k) {
-            swap(k, min);
-            minHeapify(min);
+    private void ensureExtraCapacity() {
+        if (size == capacity) {
+            items = Arrays.copyOf(items, capacity * 2);
+            capacity *= 2;
         }
     }
 
-    private void swap(int i, int j) {
-        T tmp = heap[i];
-        heap[i] = heap[j];
-        heap[j] = tmp;
+    private static boolean less(Comparable v, Comparable w){
+        return v.compareTo(w) < 0;
     }
 
-    private void resize(int newSize) {
-        T[] old = heap;
-        heap = (T []) new Comparable[newSize];
-        System.arraycopy(old, 1, heap, 1, size);
+    public T peek() {
+        if (size == 0) throw new IllegalStateException();
+        return items[0];
     }
 
-    private void swim(int k) {
-        while (k > 1 && heap[k].compareTo(heap[k / 2]) < 0) {
-            swap(k, k / 2);
-            k = k / 2;
+    public T poll() {
+        if (size == 0) throw new IllegalStateException();
+        T item = items[0];
+        items[0] = items[--size];
+        items[size] = null;
+        heapifyDown();
+        return item;
+    }
+
+    public void add(T item) {
+        ensureExtraCapacity();
+        items[size++] = item;
+        heapifyUp();
+    }
+
+    private void heapifyUp() {
+        int index = size - 1;
+        while (hasParent(index) && less(items[index], parent(index))) {
+            int parentIndex = getParentIndex(index);
+            swap(index, parentIndex);
+            index = parentIndex;
         }
     }
 
-    private boolean isFull() {
-        return size == heap.length - 1;
+    private void heapifyDown() {
+        int index = 0;
+        while (hasLeftChild(index)) { // left child 가 없으면 right child 도 없다
+            int smallerChildIndex = getLeftChildIndex(index);
+            if ( hasRightChild(index) && less( rightChild(index), leftChild(index) ) )
+                smallerChildIndex = getRightChildIndex(index);
+
+            if (less(items[index], items[smallerChildIndex]))
+                break;
+            else
+                swap(index, smallerChildIndex);
+
+            index = smallerChildIndex;
+        }
     }
 
-    public String toString() {
-        String out = "";
-        for(int k = 1; k <= size; k++) out += heap[k]+" ";
-        return out;
+    public void print() {
+        for (int i=0; i<size; i++) {
+            System.out.print(items[i] + " ");
+        }
+        System.out.print("\n");
     }
 
     public static void main(String[] args) {
-        Integer[] input = {12,24,58,20,29,38,93,48,39,20,19,38,49,39,29,38};
-        MinHeap<Integer> heap = new MinHeap<>(input);
+        MinHeap<Integer> minHeap = new MinHeap<>();
 
-        System.out.println(heap.toString());
+        minHeap.add(13);
+        minHeap.add(12);
+        minHeap.add(11);
+        minHeap.add(10);
+        minHeap.add(9);
+        minHeap.add(8);
+        minHeap.add(7);
+        minHeap.add(6);
+        minHeap.add(5);
+        minHeap.add(4);
+        minHeap.add(3);
+        minHeap.add(2);
+        minHeap.add(1);
+        minHeap.print();
+
+        minHeap.poll();
+        minHeap.print();
     }
 }
