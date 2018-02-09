@@ -5,13 +5,15 @@ import java.util.Arrays;
 /**
  * Created by yaboong on 2018. 1. 15..
  */
-public class ArrayOfStringStack {
+
+public class ArrayOfStack<T extends Comparable<T>>{
     private static final int DEFAULT_CAPACITY = 1;
-    private String[] stack;
+    private T[] stack;
     private int N = 0;
 
-    public ArrayOfStringStack(){
-        stack = new String[DEFAULT_CAPACITY];
+    @SuppressWarnings("unchecked")
+    public ArrayOfStack(){
+        stack = (T[]) new Comparable[DEFAULT_CAPACITY];
     }
 
     private boolean isFull(){
@@ -22,19 +24,19 @@ public class ArrayOfStringStack {
         return N == 0;
     }
 
-    public void push(String item){
+    public void push(T item){
         if(isFull()) resize(2*stack.length);
         stack[N++] = item;
     }
 
-    public String pop(){
+    public T pop(){
         if (!isEmpty()) {
-            String item = stack[--N];
+            T item = stack[--N];
             stack[N] = null;
             if (N > 0 && N == stack.length / 4) resize(stack.length / 2);
             return item;
         }
-        return "";
+        return null;
     }
 
     private void resize(int newCapacity){
@@ -53,22 +55,22 @@ public class ArrayOfStringStack {
     }
 
     public static void main(String[] args) {
-        ArrayOfStringStack stack = new ArrayOfStringStack();
+        ArrayOfStack<Integer> stack = new ArrayOfStack<>();
 
-        stack.push("1");
-        stack.push("2");
-        stack.push("3");
-        stack.push("4");
-        stack.push("5");
-        stack.push("6");
-        stack.push("7");
-        stack.push("8");
-        stack.push("9");
-        stack.push("10");
-        stack.push("11");
-        stack.push("12");
-        stack.push("13");
-        stack.push("14");
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        stack.push(4);
+        stack.push(5);
+        stack.push(6);
+        stack.push(7);
+        stack.push(8);
+        stack.push(9);
+        stack.push(10);
+        stack.push(11);
+        stack.push(12);
+        stack.push(13);
+        stack.push(14);
 
         System.out.println("After Push");
         stack.print();

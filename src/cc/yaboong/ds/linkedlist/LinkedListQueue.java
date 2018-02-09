@@ -3,11 +3,11 @@ package cc.yaboong.ds.linkedlist;
 /**
  * Created by yaboong on 2018. 1. 15..
  */
-public class LinkedListQueue<E extends Comparable<E>> {
+public class LinkedListQueue<T extends Comparable<T>> {
     private Node head, tail;
 
     private class Node{
-        E item;
+        T item;
         Node next;
     }
 
@@ -16,7 +16,7 @@ public class LinkedListQueue<E extends Comparable<E>> {
     }
 
     // 데이터의 추가는 tail 에 한다 (들어온 순서대로 줄을 세우는 셈)
-    public void enqueue(E item){
+    public void enqueue(T item){
         Node oldlast = tail;        // 기존의 tail 을 잠시 보관해두고
         tail = new Node();          // 새로운 tail 을 생성한다
         tail.item = item;
@@ -26,7 +26,7 @@ public class LinkedListQueue<E extends Comparable<E>> {
     }
 
     // 데이터 꺼내는 작업은 head 로 한다 (먼저 들어왔던 데이터부터 꺼낸다)
-    public E dequeue(){
+    public T dequeue(){
         // 비어있는 경우
         if(isEmpty()){
             tail = head;
@@ -35,7 +35,7 @@ public class LinkedListQueue<E extends Comparable<E>> {
         }
         // 비어있지 않으면
         else{
-            E item = head.item;     // head 의 데이터를 저장
+            T item = head.item;     // head 의 데이터를 저장
             head = head.next;       // 기존 head 다음 node (혹은 null) 를 head 로 설정해준다
             return item;
         }

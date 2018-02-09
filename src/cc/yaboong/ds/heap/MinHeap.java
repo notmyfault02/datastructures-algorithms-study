@@ -3,8 +3,9 @@ package cc.yaboong.ds.heap;
 /**
  * Created by yaboong on 2017. 8. 6..
  */
-@SuppressWarnings("unchecked")
-public class MinHeap<E extends Comparable<E>> {
+
+
+public class MinHeap<T extends Comparable<T>> {
 
     /** TODO
      * Heapsort
@@ -14,30 +15,32 @@ public class MinHeap<E extends Comparable<E>> {
     private static final int INIT_CAPACITY = 2;
 
     private int size;
-    private E[] heap;
+    private T[] heap;
 
+    @SuppressWarnings("unchecked")
     public MinHeap() {
         size = 0;
-        heap = (E[]) new Comparable[INIT_CAPACITY];
+        heap = (T[]) new Comparable[INIT_CAPACITY];
     }
 
-    public MinHeap(Integer[] array) {
+    @SuppressWarnings("unchecked")
+    public MinHeap(T[] array) {
         size = array.length;
-        heap = (E[]) new Comparable[size + 1];
+        heap = (T[]) new Comparable[size + 1];
         System.arraycopy(array, 0, heap, 1, size);
         buildMinHeap();
     }
 
-    public void insert(E item) {
+    public void insert(T item) {
         if (isFull()) { resize(heap.length * 2); }
         heap[++size] = item;
         swim(size);
     }
 
-    public E deleteMin() throws RuntimeException {
+    public T deleteMin() throws RuntimeException {
         if (size == 0) throw new RuntimeException("Heap is empty");
         if (size == heap.length / 4) resize(heap.length / 2);
-        E min = heap[1];
+        T min = heap[1];
         heap[1] = heap[size];
         heap[size--] = null;
         minHeapify(1);
@@ -71,14 +74,14 @@ public class MinHeap<E extends Comparable<E>> {
     }
 
     private void swap(int i, int j) {
-        E tmp = heap[i];
+        T tmp = heap[i];
         heap[i] = heap[j];
         heap[j] = tmp;
     }
 
     private void resize(int newSize) {
-        E[] old = heap;
-        heap = (E []) new Comparable[newSize];
+        T[] old = heap;
+        heap = (T []) new Comparable[newSize];
         System.arraycopy(old, 1, heap, 1, size);
     }
 
@@ -101,7 +104,7 @@ public class MinHeap<E extends Comparable<E>> {
 
     public static void main(String[] args) {
         Integer[] input = {12,24,58,20,29,38,93,48,39,20,19,38,49,39,29,38};
-        MinHeap<Integer> heap = new MinHeap<Integer>(input);
+        MinHeap<Integer> heap = new MinHeap<>(input);
 
         System.out.println(heap.toString());
     }
