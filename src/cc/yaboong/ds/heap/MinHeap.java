@@ -161,6 +161,8 @@ public class MinHeap <T extends Comparable<T>> {
         };
         MinHeap<Product> productMinHeap = new MinHeap<>(arrayOfProduct);
         productMinHeap.print();
+        Arrays.asList(productMinHeap.heapSort()).forEach(elem -> System.out.print(elem + " "));
+        System.out.println();
 
         String[] arrayOfString = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"};
         MinHeap<String> heap = new MinHeap<>(arrayOfString);
