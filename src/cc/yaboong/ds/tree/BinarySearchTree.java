@@ -254,27 +254,27 @@ public class BinarySearchTree {
 
 
         // Tree traversal
-//        System.out.println("---------- In Order Traversal ----------");
-//        bTree.inOrderTraverse(bTree.getRoot());
-//        System.out.println("\n");
-//
-//        System.out.println("---------- Pre Order Traversal ----------");
-//        bTree.preOrderTraverse(bTree.getRoot());
-//        System.out.println("\n");
-//
-//        System.out.println("---------- Post Order Traversal ----------");
-//        bTree.postOrderTraverse(bTree.getRoot());
-//        System.out.println("\n");
-//
-//        System.out.println("---------- Find Node ----------");
-//        Node found = bTree.findNode(25);
-//        System.out.println(found == null ? "not exists" : found);
-//        System.out.println("\n");
-//
-//        // Deleting node
-//        System.out.println("---------- Delete Node Test ----------");
-//        bTree.deleteNode(15);
-//        bTree.BFS();
-//        System.out.println();
+        System.out.println("---------- In Order Traversal ----------");
+        bTree.inOrderTraverse(bTree.getRoot());
+        System.out.println("\n");
+
+        System.out.println("---------- Pre Order Traversal ----------");
+        bTree.preOrderTraverse(bTree.getRoot());
+        System.out.println("\n");
+
+        System.out.println("---------- Post Order Traversal ----------");
+        bTree.postOrderTraverse(bTree.getRoot());
+        System.out.println("\n");
+
+        System.out.println("---------- Find Node ----------");
+        Node found = bTree.findNode(25);
+        System.out.println(found == null ? "not exists" : found);
+        System.out.println("\n");
+
+        // Deleting node
+        System.out.println("---------- Delete Node Test ----------");
+        bTree.deleteNode(15);
+        bTree.BFS();
+        System.out.println();
     }
 }
