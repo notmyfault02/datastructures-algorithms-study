@@ -38,29 +38,31 @@ public class BinarySearchTree {
     }
 
     public void addNode(int key) {
+        if (findNode(key) != null) return;
+
         Node newNode = new Node(key);
 
         if (root == null) {
-            root = newNode;
+            root = newNode; // 트리가 비어있으면 root 에 삽입
         } else {
-            Node focusNode = root;
-            Node parent;
+            Node focusNode = root;  //  탐색용 노드
+            Node parent;            //  탐색용 노드의 부모 노드
 
             while(true) {
-                parent = focusNode;
+                parent = focusNode; //  이동
 
-                if (key < parent.key) {
-                    focusNode = parent.leftChild;
+                if (key < parent.key) {             //  삽입하려는 키가 현재 노드보다 작으면
+                    focusNode = parent.leftChild;   //  왼쪽으로 이동
 
-                    if (focusNode == null) {
-                        parent.leftChild = newNode;
+                    if (focusNode == null) {        //  왼쪽 노드가 비어있으면
+                        parent.leftChild = newNode; //  왼쪽 노드에 삽입
                         return;
                     }
-                } else {
-                    focusNode = parent.rightChild;
+                } else {                            //  삽입하려는 키가 현재 노드보다 크다면
+                    focusNode = parent.rightChild;  //  오른쪽으로 이동
 
-                    if (focusNode == null) {
-                        parent.rightChild = newNode;
+                    if (focusNode == null) {        //  오른쪽 노드가 비어있으면
+                        parent.rightChild = newNode;//  오른쪽 노드에 삽입
                         return;
                     }
                 }
@@ -75,104 +77,74 @@ public class BinarySearchTree {
 
         boolean isLeftChild = true;
 
-        // while 문이 끝나고 나면 focusNode 는 삭제될 노드를 가리키고, parent 는 삭제될 노드의 부모노드를 가리키게 되고, 삭제될 노드가 부모노드의 left 인지 right 인지에 대한 정보를 가지게 된
+        // while 문이 끝나고 나면 focusNode 는 삭제될 노드를 가리키고, parent 는 삭제될 노드의 부모노드를 가리키게 되고, 삭제될 노드가 부모노드의 left 인지 right 인지에 대한 정보를 가지게 된다
         while(focusNode.key != key) {
             parent = focusNode;
 
             if(key < focusNode.key) {
-                isLeftChild = true;
+                isLeftChild = true;             // 지우려는 노드가 왼쪽에 있는 노드냐 기록용
                 focusNode = parent.leftChild;
             } else {
-                isLeftChild = false;
+                isLeftChild = false;            // 지우려는 노드가 오른쪽에 있는 노드냐 기록용
                 focusNode = parent.rightChild;
             }
 
-            // Not found
+            // 찾으려는 노드가 없는 경우
             if(focusNode == null) {
                 return false;
             }
         }
 
 
-        /**
-         * Below if statement is for after the focusNode which will be deleted is being found.
-         * At this point, variable 'parent' is a parent node of the focusNode.
-         */
-
-        // if focusNode has no children. (Draw a tree and just follow the code)
+        Node replacementNode;
+        // 지우려는 노드의 자식 노드가 없는 경우
         if(focusNode.leftChild == null && focusNode.rightChild == null) {
-            if (focusNode == root) {
+            if (focusNode == root)
                 root = null;
-            } else if(isLeftChild) {
-                parent.leftChild = null; // deleting focusNode
-            } else {
-                parent.rightChild = null; // deleting focusNode
-            }
+            else if (isLeftChild)
+                parent.leftChild = null;
+            else
+                parent.rightChild = null;
         }
-        // if focusNode has no right-side children. (Draw a tree and just follow the code)
+        // 지우려는 노드의 오른쪽 자식노드가 없는 경우 (왼쪽 자식 노드만 있는 경우)
         else if(focusNode.rightChild == null) {
-            if(focusNode == root)
-                root = focusNode.leftChild;
-            else if(isLeftChild) {
-                parent.leftChild = focusNode.leftChild;
-            }
-            else {
-                parent.rightChild = focusNode.leftChild;
-            }
-        }
-        // if focusNode has no left-side children. (Draw a tree and just follow the code)
-        else if(focusNode.leftChild == null) {
-            if(focusNode == root)
-                root = focusNode.rightChild;
-            else if(isLeftChild) {
-                parent.leftChild = focusNode.rightChild;
-            }
-            else {
-                parent.rightChild = focusNode.rightChild;
-            }
-        }
+            replacementNode = focusNode.leftChild;
 
-        /** focusNode 가 leftChild, rightChild 모두 가지고 있을 경우
-         * The node which will be deleted will be replaced with the smallest node among the right-side children
-         *
-         *           50
-         *         /    \
-         *        25    75
-         *       / \    / \
-         *     15  30  70 85
-         *    /\   / \
-         *   2 18 26 32
-         *
-         *   If you want to delete 25, then 25 should be replaced with 26 because 26 is the smallest value of 25's right-side children.
-         *
-         *           50
-         *         /    \
-         *       *26    75
-         *       / \    / \
-         *     15  30  70 85
-         *    /\   / \
-         *   2 18 *  32
-         */
-        else {
-            Node rightSubTree = focusNode.rightChild;
-            Node replacementNode = getRightMinNode(focusNode.rightChild);
-
-            if (focusNode == root) {
+            if (focusNode == root)
                 root = replacementNode;
-            }
-            else if (isLeftChild) {
+            else if (isLeftChild)
                 parent.leftChild = replacementNode;
-            } else {
+            else
                 parent.rightChild = replacementNode;
-            }
+        }
+        // 지우려는 노드의 왼쪽 자식노드가 없는 경우 (오른쪽 자식 노드만 있는 경우)
+        else if (focusNode.leftChild == null) {
+            replacementNode = focusNode.rightChild;
+            if (focusNode == root)
+                root = replacementNode;
+            else if (isLeftChild)
+                parent.leftChild = replacementNode;
+            else
+                parent.rightChild = replacementNode;
+        }
+        // 지우려는 노드의 양쪽 자식노드가 모두 있는 경우
+        // 오른쪽 자식 노드의 sub tree 에서 가장 작은 노드를 찾아서 지우려는 노드가 있던 자리에 위치시킨다
+        else {
+            Node rightSubTree = focusNode.rightChild;                   // 삭제될 노드의 오른쪽 sub tree 를 저장해둔다
+            replacementNode = getRightMinNode(focusNode.rightChild);    // 삭제될 노드 자리에 오게 될 새로운 노드 (오른쪽 sub tree 에서 가장 작은 값을 가진 노드). 이 노드는 왼쪽 child 가 없어야 한다 (가장 작은 값이기 때문에)
 
+            if (focusNode == root)
+                root = replacementNode;
+            else if (isLeftChild)
+                parent.leftChild = replacementNode;
+            else
+                parent.rightChild = replacementNode;
 
             replacementNode.rightChild = rightSubTree;
-            if (replacementNode.key == rightSubTree.key) {
+            if (replacementNode == rightSubTree)                // 지우려는 노드의 오른쪽 sub tree 에 노드가 하나밖에 없는 경우
                 replacementNode.rightChild = null;
-            }
 
-            replacementNode.leftChild = focusNode.leftChild;
+            replacementNode.leftChild = focusNode.leftChild;    // 지우려는 노드의 왼쪽 sub tree 를 연결시킨다
         }
 
         return true;
@@ -216,6 +188,9 @@ public class BinarySearchTree {
     }
 
     public Node findNode(int key) {
+        // 트리가 비었을 때
+        if (root == null) return null;
+
         Node focusNode = root;
 
         while (focusNode.key != key) {
@@ -225,6 +200,7 @@ public class BinarySearchTree {
                 focusNode = focusNode.rightChild;
             }
 
+            // 찾으려는 노드가 없을 때
             if (focusNode == null)
                 return null;
         }
@@ -247,9 +223,17 @@ public class BinarySearchTree {
     }
 
     public static void main(String[] args) {
-        // Creating BinarySearchTree
         BinarySearchTree bTree = new BinarySearchTree();
 
+        /**
+         *           50
+         *         /    \
+         *        25    75
+         *       / \    / \
+         *     15  30  70 85
+         *    /\   / \
+         *   2 18 26 32
+         */
         // Adding nodes to the BinarySearchTree
         bTree.addNode(50);
         bTree.addNode(25);
@@ -262,30 +246,35 @@ public class BinarySearchTree {
         bTree.addNode(18);
         bTree.addNode(26);
         bTree.addNode(32);
+        bTree.addNode(32);
+        bTree.addNode(32);
+        bTree.addNode(32);
+
+        bTree.BFS();
 
 
         // Tree traversal
-        System.out.println("---------- In Order Traversal ----------");
-        bTree.inOrderTraverse(bTree.getRoot());
-        System.out.println("\n");
-
-        System.out.println("---------- Pre Order Traversal ----------");
-        bTree.preOrderTraverse(bTree.getRoot());
-        System.out.println("\n");
-
-        System.out.println("---------- Post Order Traversal ----------");
-        bTree.postOrderTraverse(bTree.getRoot());
-        System.out.println("\n");
-
-        System.out.println("---------- Find Node ----------");
-        Node found = bTree.findNode(25);
-        System.out.println(found == null ? "not exists" : found);
-        System.out.println("\n");
-
-        // Deleting node
-        System.out.println("---------- Delete Node Test ----------");
-        bTree.deleteNode(15);
-        bTree.BFS();
-        System.out.println();
+//        System.out.println("---------- In Order Traversal ----------");
+//        bTree.inOrderTraverse(bTree.getRoot());
+//        System.out.println("\n");
+//
+//        System.out.println("---------- Pre Order Traversal ----------");
+//        bTree.preOrderTraverse(bTree.getRoot());
+//        System.out.println("\n");
+//
+//        System.out.println("---------- Post Order Traversal ----------");
+//        bTree.postOrderTraverse(bTree.getRoot());
+//        System.out.println("\n");
+//
+//        System.out.println("---------- Find Node ----------");
+//        Node found = bTree.findNode(25);
+//        System.out.println(found == null ? "not exists" : found);
+//        System.out.println("\n");
+//
+//        // Deleting node
+//        System.out.println("---------- Delete Node Test ----------");
+//        bTree.deleteNode(15);
+//        bTree.BFS();
+//        System.out.println();
     }
 }

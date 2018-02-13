@@ -35,10 +35,6 @@ public class Graph {
         boolean[] visited = new boolean[V];
         queue.add(s);
         visited[s] = true;
-        BFSUtil(s, queue, visited);
-    }
-
-    private void BFSUtil(int s, Queue<Integer> queue, boolean[] visited) {
         while(!queue.isEmpty()) {
             int currV = queue.poll();
             System.out.println(currV);
