@@ -1,68 +1,27 @@
 package cc.yaboong.ds.graph;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Queue;
 
 /**
- * Created by yaboong on 2018. 1. 26..
+ * Created by yaboong on 2018. 2. 19..
  */
 public class Graph {
-    private int V;
+    private final int V;
     private LinkedList<Integer>[] adj;
-    private boolean[] visited;
 
-    public Graph(int v){
-        V = v;
-        adj = new LinkedList[v];
-        for (int i=0; i<v; i++) {
-            adj[i] = new LinkedList<>();
-        }
-        visited = new boolean[v];
+    public Graph(int V) {
+        this.V = V;
+        adj = new LinkedList[V];
+        for (int v = 0; v < V; v++)
+            adj[v] = new LinkedList<>();
     }
 
-    public void addEdgeTo(int v, int w) {
-        adj[v].add(w);
-    }
-
-    public void addEdges(int v, int w) {
+    public void addEdge(int v, int w) {
         adj[v].add(w);
         adj[w].add(v);
     }
 
-    public void BFS(int s) {
-        Queue<Integer> queue = new LinkedList<>();
-        boolean[] visited = new boolean[V];
-        queue.add(s);
-        visited[s] = true;
-        while(!queue.isEmpty()) {
-            int currV = queue.poll();
-            System.out.println(currV);
-            int edgeCnt = adj[currV].size();
-            for (int i=0; i<edgeCnt; i++) {
-                int v = adj[currV].get(i);
-                if(!visited[v]) {
-                    visited[v] = true;
-                    queue.add(v);
-                }
-            }
-        }
-    }
+    public Iterable<Integer> adj(int v) { return adj[v]; }
 
-    public void DFS(int s) {
-        boolean[] visited = new boolean[V];
-        DFSUtil(s, visited);
-    }
-
-    private void DFSUtil(int s, boolean[] visited) {
-        visited[s] = true;
-        System.out.println(s);
-
-        Iterator<Integer> iter = adj[s].listIterator();
-        while(iter.hasNext()) {
-            int v = iter.next();
-            if (!visited[v])
-                DFSUtil(v, visited);
-        }
-    }
+    public int V() { return V; }
 }

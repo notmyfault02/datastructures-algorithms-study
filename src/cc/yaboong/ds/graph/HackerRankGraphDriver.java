@@ -3,9 +3,9 @@ package cc.yaboong.ds.graph;
 /**
  * Created by yaboong on 2018. 1. 26..
  */
-public class GraphOperator {
+public class HackerRankGraphDriver {
     public static void main(String[] args) {
-        Graph g = new Graph(4);
+        HackerRankGraph g = new HackerRankGraph(4);
 
         g.addEdgeTo(0, 1);
         g.addEdgeTo(1, 2);
