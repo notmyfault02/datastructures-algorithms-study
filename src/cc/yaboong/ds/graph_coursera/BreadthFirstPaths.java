@@ -1,4 +1,4 @@
-package cc.yaboong.ds.graph;
+package cc.yaboong.ds.graph_coursera;
 
 import java.util.LinkedList;
 import java.util.Queue;

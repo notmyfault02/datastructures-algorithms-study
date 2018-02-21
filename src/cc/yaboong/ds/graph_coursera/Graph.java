@@ -1,4 +1,4 @@
-package cc.yaboong.ds.graph;
+package cc.yaboong.ds.graph_coursera;
 
 import java.util.LinkedList;
 
@@ -16,7 +16,7 @@ public class Graph {
             adj[v] = new LinkedList<>();
     }
 
-    public void addEdge(int v, int w) {
+    public void addEdges(int v, int w) {
         adj[v].add(w);
         adj[w].add(v);
     }

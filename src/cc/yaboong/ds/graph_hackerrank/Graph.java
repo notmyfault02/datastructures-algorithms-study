@@ -1,4 +1,4 @@
-package cc.yaboong.ds.graph;
+package cc.yaboong.ds.graph_hackerrank;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,12 +7,12 @@ import java.util.Queue;
 /**
  * Created by yaboong on 2018. 1. 26..
  */
-public class HackerRankGraph {
+public class Graph {
     private int V;
     private LinkedList<Integer>[] adj;
     private boolean[] visited;
 
-    public HackerRankGraph(int v){
+    public Graph(int v){
         V = v;
         adj = new LinkedList[v];
         for (int i=0; i<v; i++) {
