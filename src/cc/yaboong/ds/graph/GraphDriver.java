@@ -26,16 +26,20 @@ public class GraphDriver {
 
         int source = 0, dest = 3;
 
-        DepthFirstPaths path = new DepthFirstPaths(g, source);
+        DepthFirstPaths dPath = new DepthFirstPaths(g, source);
 
-        Stack<Integer> stack = (Stack<Integer>) path.pathTo(dest);
+        Stack<Integer> stack = (Stack<Integer>) dPath.pathTo(dest);
         if (stack == null) {
-            System.out.print("No path from " + source + " to " + dest);
+            System.out.println("No path from " + source + " to " + dest);
         } else {
             while(!stack.isEmpty()) {
                 int item = stack.pop();
                 System.out.print(stack.isEmpty() ? item : item + "->");
             }
+            System.out.println();
         }
+
+        BreadthFirstPaths bPath = new BreadthFirstPaths(g, source);
+        bPath.bfs(g, source);
     }
 }
