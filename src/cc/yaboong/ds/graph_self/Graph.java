@@ -1,6 +1,8 @@
 package cc.yaboong.ds.graph_self;
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -16,6 +18,7 @@ public class Graph {
         this.V = V;
         this.marked = new boolean[V];
         this.edgeTo = new int[V];
+        Arrays.fill(edgeTo, -1);
         adj = new LinkedList[V];
         for (int v = 0; v < V; v++)
             adj[v] = new LinkedList<>();
@@ -50,5 +53,22 @@ public class Graph {
             path.push(x);
         path.push(src);
         return path;
+    }
+
+    public void bfs(int s) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(s);
+        marked[s] = true;
+        while (!q.isEmpty()) {
+            int v = q.poll();
+            System.out.println(v);
+            for (int w : adj(v)) {
+                if (!marked[w]) {
+                    q.add(w);
+                    marked[w] = true;
+                    edgeTo[w] = v;
+                }
+            }
+        }
     }
 }
