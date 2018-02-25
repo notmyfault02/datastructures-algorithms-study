@@ -17,8 +17,8 @@ public class Graph {
     }
 
     public void addEdges(int v, int w) {
-        adj[v].add(w);
-        adj[w].add(v);
+        adj[v].addFirst(w);
+        adj[w].addFirst(v);
     }
 
     public Iterable<Integer> adj(int v) { return adj[v]; }
