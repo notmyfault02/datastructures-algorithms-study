@@ -54,15 +54,13 @@ public class Graph {
         DFSUtil(s, visited);
     }
 
-    private void DFSUtil(int s, boolean[] visited) {
-        visited[s] = true;
-        System.out.println(s);
+    private void DFSUtil(int v, boolean[] visited) {
+        visited[v] = true;
+        System.out.println(v);
 
-        Iterator<Integer> iter = adj[s].listIterator();
-        while(iter.hasNext()) {
-            int v = iter.next();
-            if (!visited[v])
-                DFSUtil(v, visited);
+        for (int next: adj[v]) {
+            if (!visited[next])
+                DFSUtil(next, visited);
         }
     }
 }
