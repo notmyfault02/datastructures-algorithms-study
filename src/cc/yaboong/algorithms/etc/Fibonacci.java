@@ -5,7 +5,7 @@ package cc.yaboong.algorithms.etc;
  */
 public class Fibonacci {
     public static void main(String[] args) throws Exception {
-        int N = 50;
+        int N = 1500;
         long[] memo = new long[N+1];
 
         Thread fibSimpleThread = new Thread(() -> {
@@ -26,9 +26,15 @@ public class Fibonacci {
             System.out.format("fibBottomUp elapsed time: %d ms%n%n", (System.currentTimeMillis() - startTime));
         });
 
+        Thread fibThreeVarThread = new Thread(() -> {
+            long startTime = System.currentTimeMillis();
+            System.out.format("fibThreeVar: %d%n", fibThreeVar(N));
+            System.out.format("fibThreeVar elapsed time: %d ms%n%n", (System.currentTimeMillis() - startTime));
+        });
         fibSimpleThread.start();
         fibMemoizationThread.start();
         fibBottomUpThread.start();
+        fibThreeVarThread.start();
     }
 
     private static long fibSimple(int n) {
@@ -42,11 +48,30 @@ public class Fibonacci {
     }
 
     private static long fibBottomUp(int n) {
-        long[] bottomUp = new long[n+1];
+        long[] bottomUp = n < 3 ? new long[3] : new long[n+1];
         bottomUp[1] = 1;
         bottomUp[2] = 1;
         for (int i=3; i<=n; i++)
             bottomUp[i] = bottomUp[i-1] + bottomUp[i-2];
         return bottomUp[n];
+    }
+
+    private static long fibThreeVar(int n) {
+        long a = 0, b = 1, c = 1;
+
+        if (n==0) {
+            return a;
+        }
+        else if (n==1 || n==2) {
+            return b;
+        }
+        else {
+            for (int i=3; i<=n; i++) {
+                a = b;
+                b = c;
+                c = a + b;
+            }
+            return c;
+        }
     }
 }
