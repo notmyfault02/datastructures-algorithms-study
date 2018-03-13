@@ -13,11 +13,14 @@ public class Graph {
     private LinkedList<Integer>[] adj;
     private boolean[] marked;
     private int[] edgeTo;
+    private int[] id;
+    private int count;
 
     public Graph(int V) {
         this.V = V;
         this.marked = new boolean[V];
         this.edgeTo = new int[V];
+        this.id = new int[V];
         Arrays.fill(edgeTo, -1);
         adj = new LinkedList[V];
         for (int v = 0; v < V; v++)
@@ -35,12 +38,25 @@ public class Graph {
 
     public void dfs(int v) {
         marked[v] = true;
+        id[v] = count;
         System.out.println(v);
         for (int w : adj[v])
             if (!marked[w]) {
                 dfs(w);
                 edgeTo[w] = v;
             }
+    }
+
+    public void cc() {
+        count = 0;
+        Arrays.fill(marked, false);
+        id = new int[V];
+        for (int v=0; v<V; v++) {
+            if(!marked[v]) {
+                dfs(v);
+                count++;
+            }
+        }
     }
 
     private boolean hasPathTo(int v) { return marked[v]; }
