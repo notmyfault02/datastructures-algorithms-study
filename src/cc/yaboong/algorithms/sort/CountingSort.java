@@ -18,20 +18,22 @@ public class CountingSort {
     public static Integer[] sort(Integer[] a) {
         int max = Collections.max(Arrays.asList(a));
         Integer[] aux = new Integer[a.length];
-        Integer[] count = new Integer[max+1];
-        Arrays.fill(count, 0);
+        Integer[] c = new Integer[max+1];
+        Arrays.fill(c, 0);
 
+        // 각 원소 갯수 계산
         for (int i=0; i<a.length; i++) {
-            count[a[i]] += 1;
+            c[a[i]] += 1;
         }
 
-        for (int i=1; i<count.length; i++) {
-            count[i] += count[i-1];
+        // 누적합 계산
+        for (int i=1; i<c.length; i++) {
+            c[i] += c[i-1];
         }
 
+        // 누적합을 이용해 정렬
         for (int i=a.length-1; i>=0; i--) {
-            count[a[i]]--;
-            aux[count[a[i]]] = a[i];
+            aux[--c[a[i]]] = a[i];
         }
 
         return aux;
