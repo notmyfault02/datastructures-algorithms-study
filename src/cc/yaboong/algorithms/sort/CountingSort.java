@@ -1,7 +1,6 @@
 package cc.yaboong.algorithms.sort;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Created by yaboong on 2018. 3. 20..
