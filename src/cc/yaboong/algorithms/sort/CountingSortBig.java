@@ -16,23 +16,22 @@ public class CountingSortBig {
 
     public static Integer[] sort(Integer[] a) {
         List<Integer> list = Arrays.asList(a);
-        int min = Collections.min(list);
+        int min = Collections.min(list);            // 최소값도 구한다
         int max = Collections.max(list);
         Integer[] aux = new Integer[a.length];
-        Integer[] count = new Integer[max-min+1];
-        Arrays.fill(count, 0);
+        Integer[] c = new Integer[max-min+1];   // c 배열 생성
+        Arrays.fill(c, 0);
 
         for (int i=0; i<a.length; i++) {
-            count[a[i]-min] += 1;
+            c[a[i]-min] += 1;               // min 값을 빼준다
         }
 
-        for (int i=1; i<count.length; i++) {
-            count[i] += count[i-1];
+        for (int i=1; i<c.length; i++) {
+            c[i] += c[i-1];
         }
 
         for (int i=a.length-1; i>=0; i--) {
-            count[a[i]-min]--;
-            aux[count[a[i]-min]] = a[i];
+            aux[--c[a[i]-min]] = a[i];      // min 값을 빼준다
         }
 
         return aux;
