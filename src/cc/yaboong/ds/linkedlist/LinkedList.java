@@ -75,6 +75,19 @@ public class LinkedList {
         System.out.print(current.data + "\n");
     }
 
+    void reverse() {
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        head = prev;
+    }
+
     public static void main(String[] args) {
         LinkedList ll = new LinkedList();
         ll.append(1);
@@ -101,5 +114,19 @@ public class LinkedList {
 
         System.out.println(ll.deleteWithValue(100));
         ll.print();
+
+        System.out.println();
+        System.out.println();
+        LinkedList list2 = new LinkedList();
+        list2.append(1);
+        list2.append(2);
+        list2.append(3);
+        list2.append(4);
+        list2.append(5);
+        list2.append(6);
+        list2.append(7);
+
+        list2.reverse();
+        list2.print();
     }
 }
