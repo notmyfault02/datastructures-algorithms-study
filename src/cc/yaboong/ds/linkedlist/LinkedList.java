@@ -77,13 +77,13 @@ public class LinkedList {
 
     void reverse() {
         Node prev = null;
-        Node current = head;
+        Node curr = head;
         Node next = null;
-        while (current != null) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
+        while (curr != null) {
+            next = curr.next;    // 반복문을 위한 다음 노드 기억
+            curr.next = prev;    // reverse 가 일어나는 부분
+            prev = curr;         // 현재의 current 는 다음 loop 에서 prev 가 되기 때문에
+            curr = next;         // 위에서 기억해둔 다음 노드로 이동
         }
         head = prev;
     }
