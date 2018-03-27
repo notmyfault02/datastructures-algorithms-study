@@ -8,10 +8,9 @@ import java.util.Arrays;
 public class MergeSort {
     // 병합하면서 정렬한다
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi){
-        // 주어진 배열 a 의 특정 범위를 보조배열 aux 의 특정 범위에 할당해햐 하기 때문에 Arrays.copyRange() 를 쓸 수 없다
-        for (int k = lo; k <= hi; k++){
-            aux[k] = a[k];
-        }
+        // lo 인덱스 부터 hi 인덱스까지 보조배열 aux 에 카피한다. hi-lo+1 은 length 를 의미한다.
+        System.arraycopy(a, lo, aux, lo, hi-lo+1);
+
         int i = lo, j = mid+1;
         for (int k = lo; k <= hi; k++){
             if		(i > mid) 			  a[k] = aux[j++];
