@@ -13,8 +13,7 @@ public class BuiltinPriorityQueueExample {
             private String name;
             private int angerGage;
 
-            private Member(String name, int angerGage){
-                super();
+            public Member(String name, int angerGage){
                 this.name = name;
                 this.angerGage = angerGage;
             }
